@@ -1,0 +1,39 @@
+{% extends "layout.html" %} 
+
+{% block title %} 
+    Search for  {{search_info}}
+{% endblock %} 
+
+    {% block body %}
+
+        <!-- <div id="header"> -->
+            <div class="search-box" style="min-height: 100vh;">
+            <h1 class="page-title">Search for  {{search_info}}</h1>
+            
+            <div class="user-logout">
+                <h2><i class="fa fa-user"></i> {{name}}</h2>
+                <button><i class="fas fa-sign-out-alt"></i> <a href="/logout">Logout</a></button>
+            </div>
+
+            <form class="search" action="{{ url_for('search') }}" method="POST">
+                <input type="text" placeholder="search a book" name="search">
+                <button class="btn form-btn" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            {{ message }}
+            
+        <!-- </div> -->
+
+            <div class="search-results">
+                <h1>Results:</h1>
+                <ul>
+                    {% for book in search_results %}
+                    <li>
+                        <a href="{{ url_for('books', book_isbn=book.isbn) }}">
+                            <h3>{{ book.title }}</h3> <span>by {{ book.author }}, {{book.year}}</span><br> <b>ISBN:</b> {{book.isbn}}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </div>
+    {% endblock %}

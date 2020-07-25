@@ -1,0 +1,94 @@
+{% extends "layout.html" %} 
+
+{% block title %} 
+{{ book_info.title }} by {{ book_info.author }} 
+{% endblock %} 
+
+{% block body %}
+
+<div class="user-logout-2">
+    <a href="{{ url_for('search')}}"><button>
+        <i class="fas fa-arrow-left"></i> Back
+    </button></a>
+    <div class="user-right">
+        <h2><i class="fa fa-user"></i> {{name}}</h2>
+        <a href="{{ url_for('logout')}}"><button>
+            <i class="fas fa-sign-out-alt"></i>  Logout
+        </button></a>
+    </div>
+</div>
+<div class="search-box" style="min-height:100vh;">
+    <div class="book-info">
+        <div class="author-book"> 
+            <h1>{{ book_info.title }}</h1> 
+            <h2>{{ book_info.author }}</h2>
+            <span class="rates">Goodreads: <i class="fa fa-star"></i> {{avg_rating_GR}}</span> <br>
+        </div>
+        <p>
+            <b>Year:</b> {{ book_info.year }}  
+            <b>ISBN:</b> {{book_info.isbn}} 
+            <b>Number of Reviews on Goodreads:</b> {{reviews_count_GR}}
+        </p>
+    </div>
+
+    <div class="reviews-box">
+        <h1>Reviews: </h1>
+        
+        <div class="review">
+                        
+            {% with messages = get_flashed_messages(category_filter=["none_review"]) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        
+                        {{ message }}
+
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% for review in reviews %}
+                <div class=user-review>
+                    {{review.title}}
+                    
+                    <div class="review-text">
+                        <h3><b>Rating:</b> <i class="fa fa-star"></i> {{review.rating}}</h3> 
+                        <p>{{review.text}}</p>
+                    </div>
+
+                    <h2><b>Por:</b> {{review.username}}</h2>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="reviews-form">
+        <h1>Leave your review:</h1>
+        <form action="{{ url_for('books', book_isbn=book_info.isbn) }}" method="POST">  
+            <div class="form-group">
+                
+                <input class="form-control" type="number" name="review_rating" max="5" placeholder="Rating">
+                
+                <input class="form-control" type="text" name="review_title" placeholder="Title">
+                
+                <textarea class="form-control" name="review_text" rows="3" placeholder="Your review"></textarea>
+               
+                {% with messages = get_flashed_messages(category_filter=["review_form"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            
+                            {{ message }}
+        
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            
+            </div>
+        
+            <div class="form-group">
+                <button class="btn form-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>    
+    
+{% endblock %}

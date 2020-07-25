@@ -1,0 +1,24 @@
+{% extends "layout.html" %} 
+
+  {% block title %} 
+    Dashboard 
+  {% endblock %} 
+
+        {% block body %}
+          <div id="header">
+            <div class="search-box">
+              <h1 class="page-title">Dashboard</h1>
+              
+              <div class="user-logout">
+                <h2>Hello, {{name}}</h2>
+                <button><i class="fas fa-sign-out-alt"></i><a href="/logout">Logout</a></button>
+              </div>
+
+              <form class="search" action="{{ url_for('search') }}" method="POST">
+                <input type="text" placeholder="search a book" name="search">
+                <button class="btn form-btn" type="submit"><i class="fas fa-search"></i></button>
+              </form>
+              {{ message }}
+            </div>
+          </div>
+      {% endblock %}
